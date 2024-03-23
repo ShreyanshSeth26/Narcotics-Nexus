@@ -5,27 +5,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.*;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-public class Customer {
+public class Vendor {
     @Id
-    private String customerId;
-    private boolean membership;
-    private int nexusPoints;
-    private String firstName;
-    private String lastName;
-    private String aadharNum;
-    private Date dob;
-    private String phoneNum;
+    private String vendorId;
+    private String licenseId;
+    private String panCardId;
+    private String address;
+    private String companyName;
+    private String phoneNumber;
     private String emailId;
-    private String upiId;
+    private String city;
     @OneToOne
     private Login login;
-
 }
