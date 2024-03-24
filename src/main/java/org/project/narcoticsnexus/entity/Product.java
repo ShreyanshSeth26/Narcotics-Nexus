@@ -12,7 +12,8 @@ import lombok.*;
 @Entity
 public class Product {
     @Id
-    private String productId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long productId;
     private String productName;
     private float cost;
     private float weight;
@@ -24,5 +25,4 @@ public class Product {
     private String category;
     @ManyToOne
     private Vendor vendor;
-
 }
