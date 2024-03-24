@@ -13,7 +13,7 @@ import lombok.*;
 @Entity
 public class Vendor {
     @Id
-    private String vendorId;
+    private String username;
     private String licenseId;
     private String panCardId;
     private String address;

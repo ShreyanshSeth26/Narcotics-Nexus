@@ -15,7 +15,7 @@ import java.util.Date;
 @Entity
 public class Customer {
     @Id
-    private String customerId;
+    private String username;
     private boolean membership;
     private int nexusPoints;
     private String firstName;

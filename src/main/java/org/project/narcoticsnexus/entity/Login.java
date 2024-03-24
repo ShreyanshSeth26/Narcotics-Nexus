@@ -13,7 +13,6 @@ import org.project.narcoticsnexus.eNum.UserType;
 @Entity
 public class Login {
     @Id
-    private String loginId;
     private String username;
     private String pass;
     private UserType userType;
