@@ -17,8 +17,8 @@ public class CartService {
     public void addCartItem(Cart cart){
         cartRepository.save(cart);
     }
-    public List<Cart> getAllCartItems(Customer customer){
-        return new ArrayList<Cart>(cartRepository.findAllByCustomer(customer));
+    public List<Cart> getAllCartItemsByCustomer(Customer customer){
+        return new ArrayList<>(cartRepository.findAllByCustomer(customer));
     }
     public void deleteCartItem(Long cartId){
         cartRepository.deleteById(cartId);
