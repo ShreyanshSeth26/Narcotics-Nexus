@@ -13,7 +13,7 @@ public class VendorService {
         vendorRepository.save(vendor);
     }
     public Vendor getVendorByUsername(String username){
-        return vendorRepository.findById(username).orElse(new Vendor());
+        return vendorRepository.findById(username).orElse(null);
     }
     public void updateVendor(Vendor vendor){
         vendorRepository.save(vendor);

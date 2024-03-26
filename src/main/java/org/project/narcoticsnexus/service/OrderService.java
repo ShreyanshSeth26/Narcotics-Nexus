@@ -18,6 +18,7 @@ public class OrderService {
     private final OrderDetailsRepository orderRepository;
     private final CustomerService customerService;
     private final CartService cartService;
+    private final ProductService productService;
     public void addOrder(String username, Long productId, Integer quantity){
         Customer customer = Customer.builder()
                 .username(username)
@@ -33,12 +34,16 @@ public class OrderService {
                 .quantity(quantity)
                 .build();
         orderRepository.save(order);
+
     }
     public List<OrderDetails> getAllOrdersByCustomer(String username){
         Customer customer = customerService.getCustomerByUsername(username);
         return new ArrayList<>(orderRepository.findAllByCustomer(customer));
     }
-
+    public List<OrderDetails> getOrdersByProduct(long productId){
+        Product product = productService.getProductById(productId);
+        return new ArrayList<>(orderRepository.findAllByProduct(product));
+    }
     public void addCartOrder(String username) {
         List<Cart> cartItems = cartService.getAllCartItemsByCustomer(username);
         for (Cart cartItem: cartItems){
