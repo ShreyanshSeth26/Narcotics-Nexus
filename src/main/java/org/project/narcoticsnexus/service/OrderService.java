@@ -5,6 +5,7 @@ import org.project.narcoticsnexus.entity.Cart;
 import org.project.narcoticsnexus.entity.Customer;
 import org.project.narcoticsnexus.entity.OrderDetails;
 import org.project.narcoticsnexus.entity.Product;
+import org.project.narcoticsnexus.model.SellStats;
 import org.project.narcoticsnexus.repo.OrderDetailsRepository;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +50,21 @@ public class OrderService {
         for (Cart cartItem: cartItems){
             addOrder(username, cartItem.getProduct().getProductId(), cartItem.getQuantity());
         }
+    }
+    public SellStats getSellStats(String username, String productId) {
+        List<OrderDetails> productOrders = getOrdersByProduct(Long.parseLong(productId));
+        Product product = productService.getProductById(Long.parseLong(productId));
+        int sale = 0;
+        for(OrderDetails order:productOrders){
+            sale += order.getQuantity();
+        }
+        float earnings = sale*product.getCost();
+        return SellStats.builder()
+                .vendorUsername(username)
+                .productName(product.getProductName())
+                .productId(Long.parseLong(productId))
+                .sale(sale)
+                .earnings(earnings)
+                .build();
     }
 }

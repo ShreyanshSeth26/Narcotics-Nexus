@@ -1,10 +1,8 @@
 package org.project.narcoticsnexus.service;
 
 import lombok.RequiredArgsConstructor;
-import org.project.narcoticsnexus.entity.OrderDetails;
 import org.project.narcoticsnexus.entity.Product;
 import org.project.narcoticsnexus.entity.Vendor;
-import org.project.narcoticsnexus.model.SellStats;
 import org.project.narcoticsnexus.repo.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +14,6 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
     private final VendorService vendorService;
-    private final OrderService orderService;
     public void addProduct(Product product, String username){
         product.setVendor(Vendor.builder().username(username).build());
         productRepository.save(product);
@@ -45,20 +42,4 @@ public class ProductService {
         productRepository.deleteById(productId);
     }
 
-    public SellStats getSellStats(String username, String productId) {
-        List<OrderDetails> productOrders = orderService.getOrdersByProduct(Long.parseLong(productId));
-        Product product = getProductById(Long.parseLong(productId));
-        int sale = 0;
-        for(OrderDetails order:productOrders){
-            sale += order.getQuantity();
-        }
-        float earnings = sale*product.getCost();
-        return SellStats.builder()
-                .vendorUsername(username)
-                .productName(product.getProductName())
-                .productId(Long.parseLong(productId))
-                .sale(sale)
-                .earnings(earnings)
-                .build();
-    }
 }
