@@ -2,7 +2,9 @@ package org.project.narcoticsnexus.service;
 
 import lombok.RequiredArgsConstructor;
 import org.project.narcoticsnexus.eNum.UserType;
+import org.project.narcoticsnexus.entity.Customer;
 import org.project.narcoticsnexus.entity.Login;
+import org.project.narcoticsnexus.entity.Vendor;
 import org.project.narcoticsnexus.repo.LoginRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,20 @@ public class LoginService {
     private final VendorService vendorService;
     public void addUser(Login login){
         loginRepository.save(login);
+        if(login.getUserType()==UserType.CUSTOMER){
+            Customer customer = Customer.builder()
+                    .username(login.getUsername())
+                    .firstName(login.getUsername())
+                    .build();
+            customerService.addCustomer(customer);
+        }
+        else if(login.getUserType()==UserType.VENDOR){
+            Vendor vendor = Vendor.builder()
+                    .username(login.getUsername())
+                    .companyName(login.getUsername())
+                    .build();
+            vendorService.addVendor(vendor);
+        }
     }
     public Login getLoginInfo(String username){
         return loginRepository.findById(username).orElse(new Login());
@@ -28,6 +44,7 @@ public class LoginService {
                 vendorService.deleteVendor(username);
             }
         }
+        loginRepository.deleteById(username);
     }
     public void updatePassword(Login login){
         loginRepository.save(login);

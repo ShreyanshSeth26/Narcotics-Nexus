@@ -5,7 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -21,7 +21,7 @@ public class Customer {
     private String firstName;
     private String lastName;
     private String aadharNum;
-    private Date dob;
+    private LocalDate dob;
     private String phoneNum;
     private String emailId;
     private String upiId;

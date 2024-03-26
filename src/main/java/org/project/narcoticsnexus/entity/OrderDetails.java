@@ -3,7 +3,7 @@ package org.project.narcoticsnexus.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -20,5 +20,5 @@ public class OrderDetails {
     @ManyToOne
     private Customer customer;
     private int quantity;
-    private Date dateOfOrder;
+    private LocalDate dateOfOrder;
 }

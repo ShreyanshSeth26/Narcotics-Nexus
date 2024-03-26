@@ -13,7 +13,7 @@ public class CustomerService {
         customerRepository.save(customer);
     }
     public Customer getCustomerByUsername(String username){
-        return customerRepository.findById(username).orElse(new Customer());
+        return customerRepository.findById(username).orElse(null);
     }
     public void updateCustomer(Customer customer){
         customerRepository.save(customer);
