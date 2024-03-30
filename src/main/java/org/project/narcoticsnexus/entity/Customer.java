@@ -16,8 +16,8 @@ import java.time.LocalDate;
 public class Customer {
     @Id
     private String username;
-    private boolean membership;
-    private int nexusPoints;
+    private boolean membership=false;
+    private int nexusPoints=0;
     private String firstName;
     private String lastName;
     private String aadharNum;
@@ -25,6 +25,7 @@ public class Customer {
     private String phoneNum;
     private String emailId;
     private String upiId;
+    private String address;
     @OneToOne
     private Login login;
 
