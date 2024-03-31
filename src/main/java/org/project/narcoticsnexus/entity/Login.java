@@ -16,5 +16,6 @@ public class Login {
     private String username;
     private String pass;
     private UserType userType;
+    private boolean isBlocked=false;
 }
 

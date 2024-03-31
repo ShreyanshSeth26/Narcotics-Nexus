@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.project.narcoticsnexus.entity.Product;
 import org.project.narcoticsnexus.entity.Vendor;
 import org.project.narcoticsnexus.repo.ProductRepository;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
     private final VendorService vendorService;
+    private final JdbcClient jdbcClient;
     public void addProduct(Product product, String username){
         product.setVendor(Vendor.builder().username(username).build());
         productRepository.save(product);
@@ -22,7 +24,7 @@ public class ProductService {
         return productRepository.findById(productId).orElse(new Product());
     }
     public List<Product> getAllProducts(){
-        return new ArrayList<>(productRepository.findAll());
+        return new ArrayList<>(jdbcClient.sql("SELECT * FROM product").query(Product.class).list());
     }
     public List<Product> getProductsByName(String productName){
         return new ArrayList<>(productRepository.findAllByProductName(productName));

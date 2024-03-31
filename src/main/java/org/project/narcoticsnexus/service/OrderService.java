@@ -49,6 +49,7 @@ public class OrderService {
         List<Cart> cartItems = cartService.getAllCartItemsByCustomer(username);
         for (Cart cartItem: cartItems){
             addOrder(username, cartItem.getProduct().getProductId(), cartItem.getQuantity());
+            cartService.deleteCartItem(cartItem.getCartId());
         }
     }
     public SellStats getSellStats(String username, String productId) {

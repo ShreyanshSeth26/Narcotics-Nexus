@@ -16,7 +16,7 @@ import java.util.List;
 public class CartService {
     private final CartRepository cartRepository;
     private final CustomerService customerService;
-    public void addCartItem(String username, String productId, String quantity){
+    public void addCartItem(String username, String productId, int quantity){
         Customer customer = Customer.builder()
                 .username(username)
                 .build();
@@ -26,7 +26,7 @@ public class CartService {
         Cart cartItem = Cart.builder()
                 .customer(customer)
                 .product(product)
-                .quantity(Integer.getInteger(quantity))
+                .quantity(quantity)
                 .build();
         cartRepository.save(cartItem);
     }

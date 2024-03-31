@@ -15,7 +15,8 @@ public class CustomerService {
     public Customer getCustomerByUsername(String username){
         return customerRepository.findById(username).orElse(null);
     }
-    public void updateCustomer(Customer customer){
+    public void updateCustomer(Customer customer,String username){
+        customer.setUsername(username);
         customerRepository.save(customer);
     }
     public void deleteCustomer(String username){

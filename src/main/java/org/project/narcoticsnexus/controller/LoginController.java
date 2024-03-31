@@ -6,6 +6,8 @@ import org.project.narcoticsnexus.entity.Login;
 import org.project.narcoticsnexus.service.LoginService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequiredArgsConstructor
 public class LoginController {
@@ -31,7 +33,7 @@ public class LoginController {
         loginService.updatePassword(login);
     }
     @RequestMapping(method = RequestMethod.GET, value = "/login/{username}")
-    public Login getLoginDetails(@PathVariable String username){
+    public Optional<Login> getLoginDetails(@PathVariable String username){
         return loginService.getLoginInfo(username);
     }
     @RequestMapping(method = RequestMethod.DELETE, value = "/user/{username}")

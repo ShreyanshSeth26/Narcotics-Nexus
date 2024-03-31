@@ -20,15 +20,17 @@ public class CustomerController {
     private final OrderService orderService;
     @RequestMapping(method = RequestMethod.PUT, value = "/user/customer/{username}")
     public void updateCustomerDetails(@RequestBody Customer customer, @PathVariable String username){
-        if(customerService.getCustomerByUsername(username)!=null){
-            customerService.updateCustomer(customer);
-        }
+        customerService.updateCustomer(customer,username);
+    }
+    @RequestMapping(method = RequestMethod.GET, value = "/user/customer/{username}")
+    public Customer getCustomerDetails(@PathVariable String username){
+        return customerService.getCustomerByUsername(username);
     }
 
     //Mappings to cart sctions
-    @RequestMapping(method = RequestMethod.POST, value = "/user/customer/{username}/cart/product/{productId}/quantity{quantity}")
+    @RequestMapping(method = RequestMethod.POST, value = "/user/customer/{username}/cart/product/{productId}/quantity/{quantity}")
     public void addProductToCart(@PathVariable String username, @PathVariable String productId, @PathVariable String quantity){
-        cartService.addCartItem(username, productId, quantity);
+        cartService.addCartItem(username, productId, Integer.parseInt(quantity));
     }
     @RequestMapping(method = RequestMethod.GET, value = "/user/customer/{username}/cart")
     public ResponseEntity<List<Cart>> getAllCartItems(@PathVariable String username){
