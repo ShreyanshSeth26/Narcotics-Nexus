@@ -2,6 +2,7 @@
 
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
+import '../css/Login.scss';
 
 function Login() {
     const navigate= useNavigate();
@@ -25,11 +26,11 @@ function Login() {
         getLoginDetails().then(()=>{
             console.log(loginDetails);
             if(loginDetails.username==null){
-                setMessage("Such user doesn't exist");
+                setMessage("Such user doesn't exist!");
                 return;
             }
             else if(loginDetails.blocked){
-                setMessage("Your account is blocked");
+                setMessage("Your account is blocked!");
                 return;
             }
             else if (loginDetails.pass!==password){
@@ -72,19 +73,18 @@ function Login() {
 
     return (
         <div>
-            <h1>Login</h1>
-            <h3>{message}</h3>
-            <label htmlFor={"username"}>Username:</label>
-            <input id={"username"} type="text" onChange={changeUsername}/>
-            <br/>
-            <br/>
-            <label htmlFor={"password"}>Password:</label>
-            <input id={"password"} type="text" onChange={changePassword}/><br/>
-            <br/>
-            <button onClick={login}>Submit</button>
-            <br/>
-            <br/>
-            <button onClick={sign}>Sign up</button>
+            <div className={"login"}>
+                <div className={"login-container"}>
+                    <div id={"login-title"}>Log in</div>
+                    <div id={"message"}>{message}</div>
+                    <label htmlFor={"username"} className={"label"}>Username:</label>
+                    <input id={"username"} type="text" className={"input"} onChange={changeUsername}/>
+                    <label htmlFor={"password"} className={"label"}>Password:</label>
+                    <input id={"password"} type="text" className={"input"} onChange={changePassword}/>
+                    <button onClick={login} className={"submit-button"}>Sign IN</button>
+                    <button onClick={sign} className={"sign-button"}>New to Narcotics Nexus?(Sign up)</button>
+                </div>
+            </div>
         </div>
     );
 }
