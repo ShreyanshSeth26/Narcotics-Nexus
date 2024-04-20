@@ -39,6 +39,10 @@ public class VendorController {
     public void updateProduct(@RequestBody Product product, @PathVariable String username){
         productService.updateProduct(product, username);
     }
+    @RequestMapping(method = RequestMethod.PUT, value ="/user/vendor/{username}/product/{productId}/restock/{stock}")
+    public void reStockProduct(@PathVariable String productId, @PathVariable String stock, @PathVariable String username){
+        productService.reStockProduct(productId,stock,username);
+    }
     @RequestMapping(method=RequestMethod.DELETE, value = "/user/vendor/{username}/product/{productId}")
     public void removeProduct(@PathVariable String username, @PathVariable String productId){
         productService.removeProduct(Long.parseLong(productId));
@@ -48,6 +52,4 @@ public class VendorController {
         return orderService.getSellStats(username,productId);
     }
 
-    // Stock related mappings
-    // TODO- iss deadline ke baad ka kaam hai
 }

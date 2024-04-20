@@ -1,9 +1,13 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
+import "../css/VendorHome.scss";
+import StockPopup from "./StockPopup.jsx";
 
 function VendorHome() {
     const {username} = useParams();
     const [productList, setProductList] = useState([]);
+    const [productId, setProductId] = useState();
+    const [popTrigger, setPopTrigger] = useState(false)
     const navigate=useNavigate();
 
     async function displayProducts(){
@@ -18,9 +22,15 @@ function VendorHome() {
         });
     }
 
+    function handleQuantityChange(event,index){
+        let tempList=productList;
+        tempList[index].quantity=event.target.value;
+        setProductList(tempList);
+    }
+
     useEffect(() => {
         displayProducts().then();
-    });
+    },[deleteProduct,popTrigger]);
 
     function addButtonHandler() {
         navigate(`/vendor/${username}/add-product`);
@@ -36,11 +46,18 @@ function VendorHome() {
         removeProductApi(product.productId).then(()=>{
             setProductList(p=>p.filter(prod=>prod.productId!==product.productId));
         });
+
     }
 
     function goToProduct(index){
         navigate(`/vendor/${username}/product/${productList[index].productId}`,{replace:true});
     }
+
+    function addStock(index) {
+        setProductId(productList[index].productId);
+        setPopTrigger(true);
+    }
+
 
     return (
         <div>
@@ -49,17 +66,60 @@ function VendorHome() {
             <button onClick={logout}>logout</button>
             <h2>Your Products</h2>
             <ol className={"product-list"}>
-                {productList.map((product,index) => <li key={index} id={product.productId} className={"product-list-item"} onClick={()=>goToProduct(index)}>
-                    <div>
-                        Name: {product.productName}
-                    </div>
-                    <div>
-                        Cost: {product.cost}
-                    </div>
-                    <div>
-                        <button onClick={()=>deleteProduct(index)}>delete</button>
-                    </div>
-                </li>)}
+                {productList.map((product,index) => {
+                    if(product.stock>0) {
+                        return (
+                            <div key={index} id={product.productId} className={"product-list-item"}>
+                                <div className={"product-details"} onClick={() => goToProduct(index)}>
+                                    <div>
+                                        Name: {product.productName}
+                                    </div>
+                                    <div>
+                                        Cost: {product.cost}
+                                    </div>
+                                    <div>
+                                        Stock: {product.stock}
+                                    </div>
+                                    <div>
+
+                                    </div>
+                                </div>
+                                <div className={"product-button"}>
+                                    <button onClick={() =>{ event.stopPropagation();deleteProduct(index);}}>remove</button>
+                                </div>
+                            </div>
+                        );
+                    }
+                })}
+            </ol>
+            <h2>Out Of Stock Products</h2>
+            <StockPopup trigger={popTrigger} setTrigger={setPopTrigger} username={username} productId={productId}/>
+            <ol className={"product-list"}>
+                {productList.map((product,index) => {
+                    if(product.stock<=0) {
+                        return (
+                            <li key={index} id={product.productId} className={"product-list-item"}>
+                                <div className={"product-details"} onClick={() => goToProduct(index)}>
+                                    <div>
+                                        Name: {product.productName}
+                                    </div>
+                                    <div>
+                                        Cost: {product.cost}
+                                    </div>
+                                    <div>
+                                        Stock: {product.stock}
+                                    </div>
+                                    <div>
+
+                                    </div>
+                                </div>
+                                <div>
+                                    <button onClick={() => addStock(index)}>Add Stock</button>
+                                </div>
+                            </li>
+                        );
+                    }
+                })}
             </ol>
             <button onClick={addButtonHandler}>Add Product</button>
         </div>

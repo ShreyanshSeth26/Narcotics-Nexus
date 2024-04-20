@@ -4,6 +4,8 @@ import {useNavigate, useParams} from "react-router-dom";
 function Cart() {
     const {username}=useParams();
     const navigate=useNavigate();
+    const [wallet, setWallet] = useState({});
+    const [message, setMessage] = useState("")
     const [itemList, setItemList] = useState([{
         "cartId": 2,
         "customer": {
@@ -57,6 +59,7 @@ function Cart() {
 
     useEffect(() => {
         getCartItems().then();
+        getWalletDetails().then();
     }, []);
 
     function removeItem(index){
@@ -73,6 +76,15 @@ function Cart() {
     }
 
     function checkout() {
+        let cost=0;
+        itemList.forEach((item)=>{
+            cost+=(item.quantity*item.product.cost);
+        })
+        if (cost>wallet.balance){
+            setMessage("Not enough Funds!!!!")
+            return
+        }
+        setMessage("");
         buyCartItems().then(()=>{
             getCartItems().then();
         })
@@ -85,6 +97,12 @@ function Cart() {
                 "content-type":"application/json"
             }
         });
+    }
+    async function getWalletDetails(){
+        const walletResponse = await fetch(`http://localhost:8080/user/customer/${username}/wallet`)
+        const walletDetails=await walletResponse.json();
+        console.log(walletDetails);
+        setWallet(walletDetails);
     }
 
     return (
@@ -99,6 +117,7 @@ function Cart() {
                     <button  onClick={()=>removeItem(index)}>Remove</button>
                 </li>)}
             </ol>
+            <div>{message}</div>
             <button onClick={checkout}>checkout</button>
         </div>
     );

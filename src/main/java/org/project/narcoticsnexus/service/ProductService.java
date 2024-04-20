@@ -1,5 +1,6 @@
 package org.project.narcoticsnexus.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.project.narcoticsnexus.entity.Product;
 import org.project.narcoticsnexus.entity.Vendor;
@@ -41,7 +42,15 @@ public class ProductService {
         productRepository.save(product);
     }
     public void removeProduct(Long productId){
-        productRepository.deleteById(productId);
+        Product product=getProductById(productId);
+        product.setStock(0);
+        productRepository.save(product);
     }
 
+    @Transactional
+    public void reStockProduct(String productId, String stock, String username) {
+        Product product=getProductById(Long.parseLong(productId));
+        product.setStock(Integer.parseInt(stock));
+        productRepository.save(product);
+    }
 }

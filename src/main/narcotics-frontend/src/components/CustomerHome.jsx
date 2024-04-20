@@ -32,25 +32,36 @@ function CustomerHome() {
         navigate(`/customer/${username}/cart`,{replace:true});
     }
 
+    function goProfile() {
+        navigate(`/customer/${username}/profile`,{replace:true});
+    }
+
     return (
         <div>
             <h1>Home Page</h1>
             <h3>Name: {username}</h3>
-            <button>profile</button>
+            <button onClick={goProfile}>profile</button>
             <button onClick={goCart}>cart</button>
             <button onClick={pastOrder}>Past Orders</button>
             <br/>
             <button onClick={logOut}>Logout</button>
             <br/>
             <ul className={"product-list"}>
-                {productList.map((product,index) => <li key={index} id={product.productId} className={"product-list-item"} onClick={()=>showProduct(product.productId)}>
-                    <div>
-                        Name: {product.productName}
-                    </div>
-                    <div>
-                        Cost: {product.cost}
-                    </div>
-                </li>)}
+                {productList.map((product,index) => {
+                    if(product.stock>0) {
+                        return (
+                            <li key={index} id={product.productId} className={"product-list-item"}
+                                onClick={() => showProduct(product.productId)}>
+                                <div>
+                                    Name: {product.productName}
+                                </div>
+                                <div>
+                                    Cost: {product.cost}
+                                </div>
+                            </li>
+                        );
+                    }
+                })}
             </ul>
         </div>
     );

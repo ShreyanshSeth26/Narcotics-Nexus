@@ -17,6 +17,7 @@ public class Product {
     private String productName;
     private float cost;
     private float weight;
+    private int stock;
     @Lob
     private byte[] image;
     private float length;
