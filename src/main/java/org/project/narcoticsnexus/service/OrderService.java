@@ -50,6 +50,8 @@ public class OrderService {
         productService.updateProduct(product,product.getVendor().getUsername());
         walletService.updateBalance(wallet.getId(), -(quantity * product.getCost()));
         orderRepository.save(order);
+        customer.setNexusPoints(customer.getNexusPoints()+1);
+        customerService.updateCustomer(customer,username);
     }
     public List<OrderDetails> getAllOrdersByCustomer(String username){
         Customer customer = customerService.getCustomerByUsername(username);
