@@ -1,22 +1,23 @@
 import {useNavigate} from "react-router-dom";
+import "../css/SignUp.scss";
 
 
 function SignUp() {
     const navigate=useNavigate();
     function customerHandle() {
-        navigate('/sign/customer',{replace:true});
+        navigate('/sign/customer');
     }
 
     function vendorHandle() {
-        navigate('/sign/vendor',{replace:true});
+        navigate('/sign/vendor');
     }
 
     return (
 
-        <div>
-            <h1>Sign up page</h1>
-            <button onClick={customerHandle}>Customer</button>
-            <button onClick={vendorHandle}>Vendor</button>
+        <div className={"SignUp"}>
+            {/*<h1 className={"SignUp-heading"}>Sign up page</h1>*/}
+            <div onClick={customerHandle} className={"SignUp-customer SignUp-choice"}>Customer</div>
+            <div onClick={vendorHandle} className={"SignUp-vendor SignUp-choice"}>Vendor</div>
         </div>
     );
 }

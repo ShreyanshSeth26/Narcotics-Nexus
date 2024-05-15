@@ -27,7 +27,6 @@ public class OrderService {
     private final ProductService productService;
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-
     public void addOrder(String username, Long productId, Integer quantity) throws InsufficientStockException, InsufficientFundException {
         Customer customer = customerService.getCustomerByUsername(username);
         Product product = productService.getProductById(productId);

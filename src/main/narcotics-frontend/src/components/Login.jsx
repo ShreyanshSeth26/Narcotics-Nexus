@@ -9,6 +9,7 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
+    const [path, setPath] = useState("../assets/eye-closed.svg");
     const [numIncorrectPassword, setNumIncorrectPassword] = useState(0);
     let loginDetails={username:"",pass:"",userType:""};
     function changeUsername(event){
@@ -71,6 +72,18 @@ function Login() {
         loginDetails=login;
     }
 
+    function handleHidePassword() {
+        let password=document.querySelector("#password");
+        if (path==="../assets/eye-closed.svg"){
+            setPath("../assets/eye-open.svg");
+            password.type="text";
+        }
+        else{
+            setPath("../assets/eye-closed.svg");
+            password.type="password";
+        }
+    }
+
     return (
         <div>
             <div className={"login"}>
@@ -80,7 +93,12 @@ function Login() {
                     <label htmlFor={"username"} className={"label"}>Username:</label>
                     <input id={"username"} type="text" className={"input"} onChange={changeUsername}/>
                     <label htmlFor={"password"} className={"label"}>Password:</label>
-                    <input id={"password"} type="text" className={"input"} onChange={changePassword}/>
+                    <div className={"password-container"}>
+                        <input id={"password"} type="password" className={"password"} onChange={changePassword}/>
+                        <div className={"password-eye"} onClick={handleHidePassword}>
+                            <img src={path} height={20} width={20} alt={"eye"}/>
+                        </div>
+                    </div>
                     <button onClick={login} className={"submit-button"}>Sign IN</button>
                     <button onClick={sign} className={"sign-button"}>New to Narcotics Nexus?(Sign up)</button>
                 </div>
