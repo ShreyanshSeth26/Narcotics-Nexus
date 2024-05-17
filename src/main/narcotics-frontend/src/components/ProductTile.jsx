@@ -6,7 +6,7 @@ import "../css/ProductTile.scss";
 function ProductTile(props) {
     return (
         <>
-            <div className={"product-tile"}>
+            <div className={"product-tile"} title={props.name}>
                 <img src={ProductImage} className={"product-image"}/>
                 <div className={"product-description"}>
                     <div className={"product-title"}>

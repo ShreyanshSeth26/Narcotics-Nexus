@@ -50,9 +50,9 @@ function CustomerHome() {
                 <button onClick={logOut} className={"log-out"}>Logout</button>
                 <div className={"heading"}>NARCOTICS NEXUS</div>
                 <div className={"navigation"}>
-                    <img src={cart} alt={"cart"} height={40} width={40} onClick={goCart} className={"navigation-icon"}/>
-                    <img src={clock} alt={"clock"} height={35} width={35} onClick={pastOrder} className={"navigation-icon"}/>
-                    <img src={profile} alt={"profile"} height={40} width={40} onClick={goProfile} className={"navigation-icon"}/>
+                    <img src={cart} alt={"cart"} height={40} width={40} onClick={goCart} className={"navigation-icon"} title={"Cart"}/>
+                    <img src={clock} alt={"clock"} height={35} width={35} onClick={pastOrder} className={"navigation-icon"} title={"Past Orders"}/>
+                    <img src={profile} alt={"profile"} height={40} width={40} onClick={goProfile} className={"navigation-icon"} title={"Profile"}/>
                 </div>
             </header>
             <div className={"empty-div"}/>
