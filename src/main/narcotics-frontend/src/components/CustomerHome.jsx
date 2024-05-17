@@ -67,23 +67,6 @@ function CustomerHome() {
                     }
                 })}
             </div>
-            {/*<ul className={"product-list"}>*/}
-            {/*    {productList.map((product,index) => {*/}
-            {/*        if(product.stock>0) {*/}
-            {/*            return (*/}
-            {/*                <li key={index} id={product.productId} className={"product-list-item"}*/}
-            {/*                    onClick={() => showProduct(product.productId)}>*/}
-            {/*                    <div>*/}
-            {/*                        Name: {product.productName}*/}
-            {/*                    </div>*/}
-            {/*                    <div>*/}
-            {/*                        Cost: {product.cost}*/}
-            {/*                    </div>*/}
-            {/*                </li>*/}
-            {/*            );*/}
-            {/*        }*/}
-            {/*    })}*/}
-            {/*</ul>*/}
         </div>
     );
 }

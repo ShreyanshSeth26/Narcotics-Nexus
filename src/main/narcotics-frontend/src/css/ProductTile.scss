@@ -2,6 +2,7 @@ $primary-color: #50bea3;
 $icon-color: #359076;
 $tertiary-color: #82d7c0;
 $secondary-color: #afe8ea;
+$secondary-color-focus: #9ce2e5;
 
 .product-tile{
   //margin: 2rem;
@@ -36,5 +37,8 @@ $secondary-color: #afe8ea;
     .product-price{
       font-size: 1.4rem;
     }
+  }
+  &:hover{
+    background-color: $secondary-color-focus;
   }
 }
