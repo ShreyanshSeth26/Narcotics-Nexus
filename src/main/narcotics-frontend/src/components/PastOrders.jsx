@@ -54,15 +54,16 @@ function PastOrders() {
     return (
         <div>
             <h1>Past Orders</h1>
+            <button onClick={goBack}>back</button>
             <ol className={"product-list"}>
-                {orderList.map((order,index)=><li key={index} className={"product-list-item"}>
+                {orderList.map((order, index) => <li key={index} className={"product-list-item"}>
                     <div>Name: {order.product.productName}</div>
-                    <div>Cost: {order.product.cost*order.quantity}</div>
+                    <div>Cost: {order.product.cost * order.quantity}</div>
                     <div>Quantity: {order.quantity}</div>
                     <div>Date: {order.dateOfOrder}</div>
                 </li>)}
             </ol>
-            <button onClick={goBack}>back</button>
+
         </div>
     );
 }

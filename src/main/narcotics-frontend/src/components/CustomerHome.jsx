@@ -1,5 +1,10 @@
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
+import cart from "../assets/cart.svg";
+import clock from "../assets/clock.svg";
+import profile from "../assets/profile.svg";
+import "../css/CustomerHome.scss";
+import ProductTile from "./ProductTile.jsx";
 
 function CustomerHome() {
     const [productList, setProductList] = useState([])
@@ -37,32 +42,48 @@ function CustomerHome() {
     }
 
     return (
-        <div>
-            <h1>Home Page</h1>
-            <h3>Name: {username}</h3>
-            <button onClick={goProfile}>profile</button>
-            <button onClick={goCart}>cart</button>
-            <button onClick={pastOrder}>Past Orders</button>
-            <br/>
-            <button onClick={logOut}>Logout</button>
-            <br/>
-            <ul className={"product-list"}>
+        <div className={"home-page"}>
+            <header className={"header"}>
+                {/*<h1>Home Page</h1>*/}
+                {/*<h3>Name: {username}</h3>*/}
+
+                <button onClick={logOut} className={"log-out"}>Logout</button>
+                <div className={"heading"}>NARCOTICS NEXUS</div>
+                <div className={"navigation"}>
+                    <img src={cart} alt={"cart"} height={40} width={40} onClick={goCart} className={"navigation-icon"}/>
+                    <img src={clock} alt={"clock"} height={35} width={35} onClick={pastOrder} className={"navigation-icon"}/>
+                    <img src={profile} alt={"profile"} height={40} width={40} onClick={goProfile} className={"navigation-icon"}/>
+                </div>
+            </header>
+            <div className={"empty-div"}/>
+            <div className={"products"}>
                 {productList.map((product,index) => {
                     if(product.stock>0) {
                         return (
-                            <li key={index} id={product.productId} className={"product-list-item"}
-                                onClick={() => showProduct(product.productId)}>
-                                <div>
-                                    Name: {product.productName}
-                                </div>
-                                <div>
-                                    Cost: {product.cost}
-                                </div>
-                            </li>
+                            <div onClick={() => showProduct(product.productId)}>
+                                <ProductTile id={product.productId} name={product.productName} price={product.cost}/>
+                            </div>
                         );
                     }
                 })}
-            </ul>
+            </div>
+            {/*<ul className={"product-list"}>*/}
+            {/*    {productList.map((product,index) => {*/}
+            {/*        if(product.stock>0) {*/}
+            {/*            return (*/}
+            {/*                <li key={index} id={product.productId} className={"product-list-item"}*/}
+            {/*                    onClick={() => showProduct(product.productId)}>*/}
+            {/*                    <div>*/}
+            {/*                        Name: {product.productName}*/}
+            {/*                    </div>*/}
+            {/*                    <div>*/}
+            {/*                        Cost: {product.cost}*/}
+            {/*                    </div>*/}
+            {/*                </li>*/}
+            {/*            );*/}
+            {/*        }*/}
+            {/*    })}*/}
+            {/*</ul>*/}
         </div>
     );
 }
