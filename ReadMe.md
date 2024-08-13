@@ -1,11 +1,5 @@
 # **NARCOTICS NEXUS**
 
-## Authors ✍️
-> Suryansh Varshney - 2022519 \
-> Varun Bharti - 2022562 \
-> Akshat Wadhera - 2022057 \
-> Shreyansh Seth - 2022484
-
 ## Commands to run the project 👨🏻‍💻
 * **Start Backend**: ```mvn spring-boot:run```
 * **Frontend Dependencies**: ```cd .\src\main\narcotics-frontend\```, then ```npm install```
