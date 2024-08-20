@@ -30,7 +30,7 @@ function VendorHome() {
 
     useEffect(() => {
         displayProducts().then();
-    },[deleteProduct,popTrigger]);
+    },[]);
 
     function addButtonHandler() {
         navigate(`/vendor/${username}/add-product`);
@@ -45,6 +45,7 @@ function VendorHome() {
         console.log(product);
         removeProductApi(product.productId).then(()=>{
             setProductList(p=>p.filter(prod=>prod.productId!==product.productId));
+            displayProducts().then();
         });
 
     }
@@ -56,18 +57,21 @@ function VendorHome() {
     function addStock(index) {
         setProductId(productList[index].productId);
         setPopTrigger(true);
+        displayProducts().then();
     }
-
 
     return (
         <div>
-            <h1>Vendor Home Page</h1>
-            <h3>name:  {username}</h3>
-            <button onClick={logout}>logout</button>
-            <h2>Your Products</h2>
+            <header className={"vendor-header"}>
+                <button onClick={logout} className={"log-out"}>Logout</button>
+                <div className={"vendor-heading"}>NARCOTICS NEXUS VENDOR PORTAL</div>
+                <div className={"vendor-username"}>{username}</div>
+            </header>
+            <div className={"vendor-empty-div"}/>
+            <div className={"vendor-subheading"}>Your Products</div>
             <ol className={"product-list"}>
-                {productList.map((product,index) => {
-                    if(product.stock>0) {
+                {productList.map((product, index) => {
+                    if (product.stock > 0) {
                         return (
                             <div key={index} id={product.productId} className={"product-list-item"}>
                                 <div className={"product-details"} onClick={() => goToProduct(index)}>
@@ -85,18 +89,22 @@ function VendorHome() {
                                     </div>
                                 </div>
                                 <div className={"product-button"}>
-                                    <button onClick={() =>{ event.stopPropagation();deleteProduct(index);}}>remove</button>
+                                    <button onClick={() => {
+                                        event.stopPropagation();
+                                        deleteProduct(index);
+                                    }}>remove
+                                    </button>
                                 </div>
                             </div>
                         );
                     }
                 })}
             </ol>
-            <h2>Out Of Stock Products</h2>
+            <div className={"vendor-subheading"}>Out of Stock Products</div>
             <StockPopup trigger={popTrigger} setTrigger={setPopTrigger} username={username} productId={productId}/>
             <ol className={"product-list"}>
-                {productList.map((product,index) => {
-                    if(product.stock<=0) {
+                {productList.map((product, index) => {
+                    if (product.stock <= 0) {
                         return (
                             <li key={index} id={product.productId} className={"product-list-item"}>
                                 <div className={"product-details"} onClick={() => goToProduct(index)}>
