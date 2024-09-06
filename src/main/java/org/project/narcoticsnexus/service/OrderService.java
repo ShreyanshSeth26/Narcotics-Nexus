@@ -79,6 +79,7 @@ public class OrderService {
                 .vendorUsername(username)
                 .productName(product.getProductName())
                 .productId(Long.parseLong(productId))
+                .image(product.getImage())
                 .sale(sale)
                 .earnings(earnings)
                 .build();

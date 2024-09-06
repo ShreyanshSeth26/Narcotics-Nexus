@@ -51,5 +51,4 @@ public class VendorController {
     public SellStats getSellStats(@PathVariable String username, @PathVariable String productId){
         return orderService.getSellStats(username,productId);
     }
-
 }
