@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.project.narcoticsnexus.entity.Product;
 import org.project.narcoticsnexus.entity.Vendor;
+import org.project.narcoticsnexus.model.ImageHolder;
 import org.project.narcoticsnexus.repo.ProductRepository;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,15 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final VendorService vendorService;
     private final JdbcClient jdbcClient;
-    public void addProduct(Product product, String username){
+    public Product addProduct(Product product, String username){
         product.setVendor(Vendor.builder().username(username).build());
-        productRepository.save(product);
+        return productRepository.save(product);
     }
     public Product getProductById(long productId){
         return productRepository.findById(productId).orElse(new Product());
     }
     public List<Product> getAllProducts(){
-        return new ArrayList<>(jdbcClient.sql("SELECT * FROM product").query(Product.class).list());
+        return new ArrayList<>(productRepository.findAll());
     }
     public List<Product> getProductsByName(String productName){
         return new ArrayList<>(productRepository.findAllByProductName(productName));
@@ -52,5 +53,13 @@ public class ProductService {
         Product product=getProductById(Long.parseLong(productId));
         product.setStock(Integer.parseInt(stock));
         productRepository.save(product);
+    }
+
+    public void setDefaultImage(ImageHolder image){
+//        List<Product> productList = getAllProducts();
+//        for (Product product: productList){
+//            product.setImage(image.getImage());
+//            updateProduct(product,product.getVendor().getUsername());
+//        }
     }
 }

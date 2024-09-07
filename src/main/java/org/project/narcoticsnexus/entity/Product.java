@@ -18,8 +18,6 @@ public class Product {
     private float cost;
     private float weight;
     private int stock;
-    @Lob
-    private byte[] image;
     private float length;
     private float width;
     private float height;

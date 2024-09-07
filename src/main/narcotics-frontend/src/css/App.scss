@@ -1,3 +1,6 @@
+$background-color: #e1fffd;
+$focus: #c3e6e5;
+
 .product-list{
     list-style: none;
     padding: 0;
@@ -13,7 +16,7 @@
         height: 3.5rem;
         padding: 0 1rem;
         &:hover{
-            background: #d7d7d7;
+            background: $focus;
         }
     }
 }

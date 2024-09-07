@@ -1,5 +1,9 @@
-import { useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import "../css/VendorProduct.scss";
+import UploadImagePopUp from "./UploadImagePopUp.jsx";
+import StockPopup from "./StockPopup.jsx";
 
 function VendorProduct(){
     const{username, productId} = useParams();
@@ -9,6 +13,21 @@ function VendorProduct(){
         sale:0,
         earnings:0
     });
+    const [imageUrl, setImageUrl] = useState("");
+    const [popTrigger, setPopTrigger] = useState(false);
+
+    const fetchImage = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8080/product/id/${productId}/image`, {
+                responseType: 'blob',
+            });
+            const imageObjectUrl = URL.createObjectURL(response.data);
+            setImageUrl(imageObjectUrl);
+        } catch (error) {
+            console.error('Error fetching image:', error);
+            alert('Failed to fetch image');
+        }
+    };
 
     async function getStats(){
         const statsResponse = await fetch(`http://localhost:8080/user/vendor/${username}/product/${productId}/stats`);
@@ -18,13 +37,8 @@ function VendorProduct(){
     }
 
     useEffect(() => {
-        getStats().then(()=>{
-            if(product.image!==null){
-                const blob = new Blob([product.image], { type: 'image/jpeg' }); // Adjust type based on image format
-                const url = URL.createObjectURL(blob);
-                document.getElementById('productImage').src = url;
-            }
-        });
+        getStats().then();
+        fetchImage().then();
     },[]);
 
     function goBack(){
@@ -32,46 +46,41 @@ function VendorProduct(){
         navigate(`/vendor/${username}/home`,{replace:true});
     }
 
-    function handlePhotoUpload(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const arrayBuffer = e.target.result;
-                const byteArray = new Uint8Array(arrayBuffer);
-
-                // Display byte array
-                displayByteArray(byteArray);
-
-                // Convert byte array back to image
-                const blob = new Blob([byteArray], { type: 'image/jpeg' }); // Adjust type based on image format
-                const url = URL.createObjectURL(blob);
-                document.getElementById('productImage').src = url;
-            };
-            reader.readAsArrayBuffer(file);
-        }
+    function handleUploadTrigger(){
+        setPopTrigger(true);
     }
-    function displayByteArray(byteArray) {
-        console.log(byteArray.join(', '));
+
+    function closePopTrigger(response){
+        setPopTrigger(response);
+        fetchImage().then();
     }
+
 
     return(
         <div>
             <h1>{product.productName}</h1>
             <h2>Sell stats</h2>
-            <img id="productImage" alt="Product Image"/><br/>
-            <input type="file" id="photoInput" accept="image/*" onChange={handlePhotoUpload}/>
-            <ul className={"product-list"}>
-                <li className={"product-list-item"}>
-                    Name: {product.productName}
-                </li>
-                <li className={"product-list-item"}>
-                    Sale: {product.sale}
-                </li>
-                <li className={"product-list-item"}>
-                    Earnings: {product.earnings}
-                </li>
-            </ul>
+            <div className={"product-content"}>
+                <UploadImagePopUp trigger={popTrigger} setTrigger={closePopTrigger} username={username} productId={productId}/>
+                <div className={"product-image"}>
+                    <img src={imageUrl} id={"product-image"} alt={"product"}/>
+                    <button onClick={handleUploadTrigger}>Upload new image</button>
+                </div>
+                <div className={"product-info"}>
+                    <ul className={"product-list"}>
+                        <li className={"product-list-item"}>
+                            Name: {product.productName}
+                        </li>
+                        <li className={"product-list-item"}>
+                            Sale: {product.sale}
+                        </li>
+                        <li className={"product-list-item"}>
+                            Earnings: {product.earnings}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
             <button onClick={goBack}>Back</button>
         </div>
     );

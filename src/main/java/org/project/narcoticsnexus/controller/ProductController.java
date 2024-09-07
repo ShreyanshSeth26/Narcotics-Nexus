@@ -2,12 +2,13 @@ package org.project.narcoticsnexus.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.project.narcoticsnexus.entity.Product;
+import org.project.narcoticsnexus.service.ProductImageService;
 import org.project.narcoticsnexus.service.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
+    private final ProductImageService productImageService;
     @RequestMapping(method = RequestMethod.GET, value = "/products")
     public ResponseEntity<List<Product>> getAllProducts(){
         return ResponseEntity.ok(productService.getAllProducts());
@@ -31,4 +33,26 @@ public class ProductController {
     public Product getProductById(@PathVariable String productId){
         return productService.getProductById(Long.parseLong(productId));
     }
+
+//    Image handling mappings
+    @RequestMapping(method = RequestMethod.POST, value = "/product/id/{productId}/image")
+    public ResponseEntity<String> addProductImage(@RequestParam("image")MultipartFile file, @PathVariable String productId){
+        String response = productImageService.addProductImage(file, Long.parseLong(productId));
+        return ResponseEntity.ok(response);
+    }
+
+    @RequestMapping(method = RequestMethod.GET,  value ="/product/id/{productId}/image")
+    public ResponseEntity<?> getProductImage(@PathVariable String productId){
+        byte[] imageData = productImageService.getImageDataByProduct(Long.parseLong(productId));
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(imageData);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/product/id/{productId}/image")
+    public ResponseEntity<String> updateProductImage(@RequestParam("image")MultipartFile file, @PathVariable String productId){
+        String response = productImageService.updateProductImage(file,Long.parseLong(productId));
+        return ResponseEntity.ok(response);
+    }
+
 }

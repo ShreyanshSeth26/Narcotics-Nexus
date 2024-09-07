@@ -13,6 +13,7 @@ import PastOrders from "./PastOrders.jsx";
 import Cart from "./Cart.jsx";
 import VendorProduct from './VendorProduct.jsx';
 import CustomerProfile from "./CustomerProfile.jsx";
+import RootHome from "./RootHome.jsx";
 
 function App() {
   return(
@@ -31,6 +32,7 @@ function App() {
               <Route path={"/vendor/:username/product/:productId"} element={<VendorProduct/>}></Route>
               <Route path={"/vendor/:username/add-product"} element={<AddProduct/>}></Route>
               <Route path={"/bought"} element={<BoughtSuccesfully/>}></Route>
+              <Route path={"/root"} element={<RootHome/>}></Route>
           </Routes>
       </div>
   )

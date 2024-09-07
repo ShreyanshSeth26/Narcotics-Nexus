@@ -3,8 +3,10 @@ package org.project.narcoticsnexus.controller;
 import lombok.RequiredArgsConstructor;
 import org.project.narcoticsnexus.entity.Product;
 import org.project.narcoticsnexus.entity.Vendor;
+import org.project.narcoticsnexus.model.ImageHolder;
 import org.project.narcoticsnexus.model.SellStats;
 import org.project.narcoticsnexus.service.OrderService;
+import org.project.narcoticsnexus.service.ProductImageService;
 import org.project.narcoticsnexus.service.ProductService;
 import org.project.narcoticsnexus.service.VendorService;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ public class VendorController {
     private final VendorService vendorService;
     private final ProductService productService;
     private final OrderService orderService;
+    private final ProductImageService productImageService;
 
     @RequestMapping(method = RequestMethod.PUT, value = "/user/vendor/{username}")
     public void updateVendorDetails(@RequestBody Vendor vendor, @PathVariable String username){
@@ -29,7 +32,8 @@ public class VendorController {
     // Product related mappings
     @RequestMapping(method = RequestMethod.POST, value="/user/vendor/{username}/product")
     public void addProduct(@RequestBody Product product, @PathVariable String username){
-        productService.addProduct(product,username);
+        Product savedProduct=productService.addProduct(product,username);
+        productImageService.addProductDefaultImage(savedProduct);
     }
     @RequestMapping(method = RequestMethod.GET, value = "/user/vendor/{username}/product")
     public ResponseEntity<List<Product>> getAllProducts(@PathVariable String username){
@@ -50,5 +54,13 @@ public class VendorController {
     @RequestMapping(method = RequestMethod.GET, value = "/user/vendor/{username}/product/{productId}/stats")
     public SellStats getSellStats(@PathVariable String username, @PathVariable String productId){
         return orderService.getSellStats(username,productId);
+    }
+
+    //utility functions
+    @RequestMapping(method = RequestMethod.PUT, value = "/root/setDefaultImage")
+    public void setDefaultImage(@RequestBody ImageHolder image){
+        System.out.println("DefaultImage ByteArray:");
+        System.out.println(image.getImage());
+        productService.setDefaultImage(image);
     }
 }
