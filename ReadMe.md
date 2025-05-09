@@ -16,5 +16,5 @@
 * Out of stock products can be restocked with ease
 
 ## Important Note 📝
-* Make sure you have Docker engine installed and running on your system
-* Make sure the ports {8080, 3307, 5173, 9000} are free
+* Make sure you have Docker engine installed and running on your system.
+* Make sure the ports {8080, 3307, 5173, 9000} are free.
